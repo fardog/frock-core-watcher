@@ -1,0 +1,37 @@
+{
+  "name": "frock-core-watcher",
+  "version": "0.0.1",
+  "description": "A file-watching reload core plugin for frock.",
+  "main": "index.js",
+  "scripts": {
+    "test": "tape test.js && npm run lint",
+    "lint": "standard *.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fardog/frock-core-watcher.git"
+  },
+  "keywords": [
+    "frock",
+    "reload",
+    "core"
+  ],
+  "author": "Nathan Wittstock <nate@fardog.io>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/fardog/frock-core-watcher/issues"
+  },
+  "homepage": "https://github.com/fardog/frock-core-watcher#readme",
+  "dependencies": {
+    "arrify": "^1.0.1",
+    "chokidar": "^1.6.1"
+  },
+  "devDependencies": {
+    "proxyquire": "^1.7.10",
+    "standard": "^8.4.0",
+    "tape": "^4.6.2"
+  },
+  "frock": {
+    "compatible-versions": "^2.0.0"
+  }
+}
