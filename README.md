@@ -14,7 +14,7 @@ changes are detected in any of them. To get started, add it to your project's
 
 ```json
 {
-  "name": "frock-test-project",
+  "name": "frock-reload-test-project",
   "version": "0.0.0",
   "dependencies": {
     "frock": "^2.0.0",
