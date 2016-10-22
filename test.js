@@ -4,11 +4,13 @@ var test = require('tape')
 var proxyquire = require('proxyquire')
 
 var chokidarMock = {}
+var fsMock = {}
 
 var lib = proxyquire(
   './',
   {
     'chokidar': chokidarMock,
+    'fs': fsMock,
     '@noCallThru': true
   }
 )
@@ -42,6 +44,42 @@ test('calls watch with expected options', function (t) {
   lib(frock, logger, {
     watch: expectedWatch,
     options: expectedOpts
+  })
+
+  chokidar.emit('all', expectedWatch)
+})
+
+test('reloads config when requested', function (t) {
+  t.plan(3)
+
+  var expectedWatch = './frockfile.json'
+  var expectedConfig = {cool: 'yep'}
+  var chokidar = new EE()
+
+  chokidarMock.watch = function watch (watch) {
+    t.deepEqual(watch, [expectedWatch])
+
+    return chokidar
+  }
+
+  fsMock.readFile = function (file, cb) {
+    t.equal(file, expectedWatch)
+
+    process.nextTick(function () {
+      cb(null, JSON.stringify(expectedConfig))
+    })
+  }
+
+  var frock = {
+    reload: function (config, cb) {
+      t.deepEqual(config, expectedConfig)
+      process.nextTick(cb)
+    }
+  }
+  var logger = {info: function () {}}
+
+  lib(frock, logger, {
+    watch: [[expectedWatch, true]]
   })
 
   chokidar.emit('all', expectedWatch)
