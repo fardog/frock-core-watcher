@@ -1,6 +1,6 @@
 {
   "name": "frock-core-watcher",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A file-watching reload core plugin for frock.",
   "main": "index.js",
   "scripts": {
