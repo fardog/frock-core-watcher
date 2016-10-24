@@ -30,6 +30,7 @@ test('calls watch with expected options', function (t) {
   }
 
   var frock = {
+    argv: {file: 'wut'},
     reload: function (cb) {
       t.pass('called reload')
       process.nextTick(cb)
@@ -43,7 +44,7 @@ test('calls watch with expected options', function (t) {
 
   lib(frock, logger, {
     watch: expectedWatch,
-    options: expectedOpts
+    chokidarOptions: expectedOpts
   })
 
   chokidar.emit('all', expectedWatch)
@@ -71,6 +72,7 @@ test('reloads config when requested', function (t) {
   }
 
   var frock = {
+    argv: {file: expectedWatch},
     reload: function (config, cb) {
       t.deepEqual(config, expectedConfig)
       process.nextTick(cb)
@@ -78,9 +80,7 @@ test('reloads config when requested', function (t) {
   }
   var logger = {info: function () {}}
 
-  lib(frock, logger, {
-    watch: [[expectedWatch, true]]
-  })
+  lib(frock, logger, {watchFrockfile: true})
 
   chokidar.emit('all', expectedWatch)
 })

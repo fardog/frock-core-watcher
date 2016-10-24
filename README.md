@@ -25,13 +25,11 @@ changes are detected in any of them. To get started, add it to your project's
       {
         "handler": "frock-core-watcher",
         "options": {
-          "watch": [
-            ["./frockfile.json", true],
-            "./mocks/**/*.js"
-          ],
-          "options": {
+          "watch": ["./mocks/**/*.js"],
+          "chokidarOptions": {
             "usePolling": true
-          }
+          },
+          "watchFrockfile": true
         }
       }
     ]
@@ -43,11 +41,15 @@ Then use frock as normal. It will reload based on your list of watched files.
 
 ### Reloading on Config File changes
 
-In some cases (such as watching a `frockfile`), you may wish to have frock
-reload its configuration when a file changes. This is accomplished in the above
-example; if you pass a watch as a `[<filename>, true]` tuple, that file will be
-treated as the frockfile, and a change to it will cause a re-read of the
-configuration.
+You may wish to have frock reload its configuration when a file changes. This is
+accomplished in the above example; if you pass the option `watchFrockfile` the
+loaded `frockfile` will be added to the watchlist, and config will be reloaded
+when it changes.
+
+### Watch Options
+
+`frock-core-watcher` uses [chokidar][] for file watching; you may pass any
+options straight through to chokidar with the `chokidarOptions` key.
 
 ## Testing
 
@@ -62,3 +64,4 @@ $ npm test
 Apache 2.0, see [LICENSE](./LICENSE) for details.
 
 [frock]: https://github.com/urbanairship/frock
+[chokidar]: https://www.npmjs.com/package/chokidar

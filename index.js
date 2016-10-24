@@ -8,21 +8,14 @@ module.exports = createWatcherCore
 function createWatcherCore (frock, logger, _opts) {
   var opts = _opts || {}
   var watch = arrify(opts.watch || [])
-  var chokidarOptions = opts.options || {}
+  var chokidarOptions = opts.chokidarOptions || {}
+  var frockfilePath = frock.argv.file
 
   var reloading = false
 
-  var reloadOn = []
-
-  watch = watch.map(function (w) {
-    if (Array.isArray(w) && w[1] === true) {
-      reloadOn.push(w[0])
-
-      return w[0]
-    }
-
-    return w
-  })
+  if (opts.watchFrockfile) {
+    watch.push(frockfilePath)
+  }
 
   chokidar.watch(watch, chokidarOptions).on('all', function (path) {
     if (reloading) return
@@ -31,7 +24,7 @@ function createWatcherCore (frock, logger, _opts) {
 
     logger.info('reloading on path change: ' + path)
 
-    if (reloadOn.indexOf(path) !== -1) {
+    if (opts.watchFrockfile && path === frockfilePath) {
       return reloadFile(path)
     }
 
