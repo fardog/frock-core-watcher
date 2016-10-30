@@ -24,7 +24,8 @@
   "homepage": "https://github.com/fardog/frock-core-watcher#readme",
   "dependencies": {
     "arrify": "^1.0.1",
-    "chokidar": "^1.6.1"
+    "chokidar": "^1.6.1",
+    "dotpather": "^1.0.0"
   },
   "devDependencies": {
     "proxyquire": "^1.7.10",
