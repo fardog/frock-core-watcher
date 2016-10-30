@@ -2,6 +2,7 @@ var fs = require('fs')
 
 var arrify = require('arrify')
 var chokidar = require('chokidar')
+var dotpath = require('dotpather')
 
 module.exports = createWatcherCore
 
@@ -9,12 +10,18 @@ function createWatcherCore (frock, logger, _opts) {
   var opts = _opts || {}
   var watch = arrify(opts.watch || [])
   var chokidarOptions = opts.chokidarOptions || {}
-  var frockfilePath = frock.argv.file
+  var frockfilePath = dotpath('argv.file')(frock)
 
   var reloading = false
 
-  if (opts.watchFrockfile) {
+  if (opts.watchFrockfile && frockfilePath) {
     watch.push(frockfilePath)
+  } else if (opts.watchFrockfile) {
+    logger.warn(
+      'asked to watch the frockfile path, but frock is not reporting one. ' +
+        'typically, this is because frock was run programatically, with its ' +
+        'config injected.'
+    )
   }
 
   chokidar.watch(watch, chokidarOptions).on('all', function (path) {
