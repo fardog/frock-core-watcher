@@ -33,6 +33,6 @@
     "tape": "^4.6.2"
   },
   "frock": {
-    "compatible-versions": "^2.0.0"
+    "compatible-versions": "^3.0.0"
   }
 }

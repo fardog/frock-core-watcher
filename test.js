@@ -19,7 +19,7 @@ test('calls watch with expected options', function (t) {
   t.plan(4)
 
   var expectedWatch = './frockfile.json'
-  var expectedOpts = {usePolling: true}
+  var expectedOpts = {usePolling: true, ignoreInitial: true}
   var chokidar = new EE()
 
   chokidarMock.watch = function watch (watch, opts) {
@@ -47,7 +47,7 @@ test('calls watch with expected options', function (t) {
     chokidarOptions: expectedOpts
   })
 
-  chokidar.emit('all', expectedWatch)
+  chokidar.emit('all', 'add', expectedWatch)
 })
 
 test('reloads config when requested', function (t) {
@@ -82,5 +82,5 @@ test('reloads config when requested', function (t) {
 
   lib(frock, logger, {watchFrockfile: true})
 
-  chokidar.emit('all', expectedWatch)
+  chokidar.emit('all', 'add', expectedWatch)
 })
